@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/meteo_blue</item>
+        <item name="colorPrimaryDark">@color/meteo_dark_blue</item>
+    </style>
+
+    <style name="PrevisionTheme" parent="AppTheme">
+        <item name="actionBarStyle">@style/MeteoActionBar</item>
+    </style>
+
+    <style name="MeteoActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="logo">@drawable/ic_logo</item>
+        <item name="displayOptions">useLogo|showHome</item>
+
+    </style>
+
+    <style name="SettingsTheme" parent="AppTheme"></style>
+
+</resources>
+
+
