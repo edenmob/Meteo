@@ -7,7 +7,7 @@
         <item name="colorPrimaryDark">@color/meteo_dark_blue</item>
     </style>
 
-    <style name="PrevisionTheme" parent="AppTheme">
+    <style name="ForecastTheme" parent="AppTheme">
         <item name="actionBarStyle">@style/MeteoActionBar</item>
     </style>
 
