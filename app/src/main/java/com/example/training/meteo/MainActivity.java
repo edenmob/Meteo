@@ -8,6 +8,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +47,18 @@ public class MainActivity extends AppCompatActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
+
+        // Create some dummy data for the ListView.  Here's a sample weekly forecast
+        String[] data = {
+                "Mon 5/23 - Sunny - 31/17",
+                "Tue 5/24 - Foggy - 21/8",
+                "Wed 5/25 - Cloudy - 22/17",
+                "Thurs 5/26 - Rainy - 18/11",
+                "Fri 5/27 - Foggy - 21/10",
+                "Sat 5/28 - Cloudy - 23/18",
+                "Sun 5/29 - Sunny - 20/7"
+        };
+        List<String> weekForecast = new ArrayList<String>(Arrays.asList(data));
 
         public PlaceholderFragment() {
         }
