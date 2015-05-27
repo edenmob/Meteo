@@ -146,6 +146,8 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
         if(id == R.id.action_refresh){
             Log.d(TAG,"Refreshing data ...");
+            GetWeatherTask weatherTask = new GetWeatherTask();
+            weatherTask.execute();
             return true;
         }
 
