@@ -1,6 +1,7 @@
 package com.example.training.meteo;
 
 import android.app.Fragment;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,11 +59,10 @@ public class ForecastFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String forecast = (String)parent.getItemAtPosition(position);
-                Toast.makeText(getActivity(),forecast,Toast.LENGTH_LONG).show();
+                String forecast = (String) parent.getItemAtPosition(position);
+                Toast.makeText(getActivity(), forecast, Toast.LENGTH_LONG).show();
             }
         });
-
 
 
         return rootView;
@@ -72,7 +72,7 @@ public class ForecastFragment extends Fragment {
         try {
             ByteArrayOutputStream bo = new ByteArrayOutputStream();
             int i = is.read();
-            while(i != -1) {
+            while (i != -1) {
                 bo.write(i);
                 i = is.read();
             }
@@ -83,9 +83,15 @@ public class ForecastFragment extends Fragment {
     }
 
 
-    public class GetWeatherTask extends AsyncTask<Void,Void,Void>{
+    public class GetWeatherTask extends AsyncTask<String, Void, Void> {
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Void doInBackground(String... params) {
+
+            // If there's no zip code, there's nothing to look up. Verify size of params.
+            if (params == null || params.length == 0) {
+                return null;
+            }
+
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
@@ -93,12 +99,32 @@ public class ForecastFragment extends Fragment {
 
             // Will contain the raw JSON response as a string.
             String forecastJsonStr = null;
+            String format = "json";
+            String units = "metric";
+            int numDays = 7;
 
             try {
+
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are avaiable at OWM's forecast API page, at
                 // http://openweathermap.org/API#forecast
-                URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?q=Lille,FR&mode=json&units=metric&cnt=7");
+                final String FORECAST_BASE_URL =
+                        "http://api.openweathermap.org/data/2.5/forecast/daily?";
+                final String QUERY_PARAM = "q";
+                final String FORMAT_PARAM = "mode";
+                final String UNITS_PARAM = "units";
+                final String DAYS_PARAM = "cnt";
+
+                Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
+                        .appendQueryParameter(QUERY_PARAM, params[0])
+                        .appendQueryParameter(FORMAT_PARAM, format)
+                        .appendQueryParameter(UNITS_PARAM, units)
+                        .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
+                        .build();
+
+                URL url = new URL(builtUri.toString());
+
+                Log.v(TAG, "Built URI " + builtUri.toString());
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -106,13 +132,13 @@ public class ForecastFragment extends Fragment {
                 // Read the input stream into a String
                 InputStream is = new BufferedInputStream(urlConnection.getInputStream());
                 forecastJsonStr = readStream(is);
-                Log.d(TAG,forecastJsonStr);
+                Log.d(TAG, forecastJsonStr);
             } catch (IOException e) {
                 Log.e("ForecastFragment", "Error ", e);
                 // If the code didn't successfully get the weather data, there's no point in attemping
                 // to parse it.
                 return null;
-            } finally{
+            } finally {
                 if (urlConnection != null) {
                     urlConnection.disconnect();
                 }
@@ -126,7 +152,9 @@ public class ForecastFragment extends Fragment {
             }
             return null;
         }
-    };
+    }
+
+    ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -136,7 +164,7 @@ public class ForecastFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.forecast_fragment,menu);
+        inflater.inflate(R.menu.forecast_fragment, menu);
     }
 
 
@@ -144,10 +172,10 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        if(id == R.id.action_refresh){
-            Log.d(TAG,"Refreshing data ...");
+        if (id == R.id.action_refresh) {
+            Log.d(TAG, "Refreshing data ...");
             GetWeatherTask weatherTask = new GetWeatherTask();
-            weatherTask.execute();
+            weatherTask.execute("Lille,FR");
             return true;
         }
 
