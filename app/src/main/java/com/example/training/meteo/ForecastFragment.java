@@ -2,7 +2,11 @@ package com.example.training.meteo;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,6 +19,7 @@ import android.widget.Toast;
  */
 public class ForecastFragment extends Fragment {
 
+    public static final String TAG = ForecastFragment.class.getSimpleName();
     ArrayAdapter<String> mForecastAdapter;
 
     public ForecastFragment() {
@@ -49,5 +54,29 @@ public class ForecastFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.forecast_fragment,menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if(id == R.id.action_refresh){
+            Log.d(TAG,"Refreshing data ...");
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
