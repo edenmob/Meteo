@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="list_dummy_data">
+        <item>Mon 5/23 - Sunny - 31/17</item>
+        <item>Tue 5/24 - Foggy - 21/8</item>
+        <item>Wed 5/25 - Cloudy - 22/17</item>
+        <item>Thurs 5/26 - Rainy - 18/11</item>
+        <item>Fri 5/27 - Foggy - 21/10</item>
+        <item>Sat 5/28 - Cloudy - 23/18</item>
+        <item>Sun 5/29 - Sunny - 20/7</item>
+    </string-array>
+</resources>
