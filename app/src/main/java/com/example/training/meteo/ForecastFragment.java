@@ -30,10 +30,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.TimeZone;
 
 /**
@@ -50,6 +52,9 @@ public class ForecastFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        
+        List<String> data = new ArrayList<String>();
+        data.addAll(Arrays.asList(getResources().getStringArray(R.array.list_dummy_data)));
 
         // Now that we have some dummy forecast data, create an ArrayAdapter.
         // The ArrayAdapter will take data from a source (like our dummy forecast) and
@@ -59,7 +64,7 @@ public class ForecastFragment extends Fragment {
                         getActivity(), // The current context (this activity)
                         R.layout.list_item_forecast, // The name of the layout ID.
                         R.id.list_item_forecast_textview, // The ID of the textview to populate.
-                        getResources().getStringArray(R.array.list_dummy_data));
+                        data);
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -260,6 +265,19 @@ public class ForecastFragment extends Fragment {
 
             // This will only happen if there was an error getting or parsing the forecast.
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(String[] forecasts) {
+
+            if(forecasts != null){
+                mForecastAdapter.clear();
+
+                for(String f:forecasts){
+                    mForecastAdapter.add(f);
+                }
+            }
+
         }
     }
 
