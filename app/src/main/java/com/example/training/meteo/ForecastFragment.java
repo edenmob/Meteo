@@ -1,6 +1,7 @@
 package com.example.training.meteo;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -76,7 +77,9 @@ public class ForecastFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String forecast = (String) parent.getItemAtPosition(position);
-                Toast.makeText(getActivity(), forecast, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(),DetailActivity.class);
+                intent.putExtra(Intent.EXTRA_TEXT,forecast);
+                startActivity(intent);
             }
         });
 
