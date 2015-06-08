@@ -1,5 +1,6 @@
 package com.example.training.meteo;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
@@ -50,6 +51,29 @@ public class ForecastFragment extends Fragment {
     public ForecastFragment() {
     }
 
+
+    /**
+     * A callback interface that all activities containing this fragment must
+     * implement. This mechanism allows activities to be notified of item
+     * selections.
+     */
+    public interface Callback {
+        /**
+         * DetailFragmentCallback for when an item has been selected.
+         */
+        public void onItemSelected(String forecastData);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            Callback c = (Callback) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement Callback interface");
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,9 +101,8 @@ public class ForecastFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String forecast = (String) parent.getItemAtPosition(position);
-                Intent intent = new Intent(getActivity(),DetailActivity.class);
-                intent.putExtra(Intent.EXTRA_TEXT,forecast);
-                startActivity(intent);
+                Callback c = (Callback) getActivity();
+                c.onItemSelected(forecast);
             }
         });
 

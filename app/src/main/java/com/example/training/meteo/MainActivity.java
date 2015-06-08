@@ -1,26 +1,25 @@
 package com.example.training.meteo;
-import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ForecastFragment.Callback{
+
+    private boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(findViewById(R.id.weather_detail_container) != null){
+            mTwoPane = true;
+            getSupportFragmentManager().beginTransaction().replace(R.id.weather_detail_container,new DetailFragment()).commit();
+        }else{
+            mTwoPane = false;
+        }
     }
 
     @Override
@@ -45,4 +44,21 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onItemSelected(String forecastData) {
+        if(mTwoPane){
+
+            DetailFragment fragment = new DetailFragment();
+            Bundle arguments = new Bundle();
+            arguments.putString(Intent.EXTRA_TEXT,forecastData);
+            fragment.setArguments(arguments);
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.weather_detail_container,fragment).commit();
+
+        }else{
+            Intent intent = new Intent(this,DetailActivity.class);
+            intent.putExtra(Intent.EXTRA_TEXT,forecastData);
+            startActivity(intent);
+        }
+    }
 }

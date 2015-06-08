@@ -1,5 +1,8 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/fragment_detail"
-    android:name="com.example.training.meteo.DetailActivityFragment"
-    tools:layout="@layout/fragment_detail" android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/weather_detail_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_orange_light"
+    tools:context="com.example.training.meteo.DetailActivity"
+    tools:ignore="MergeRootFrame" />
