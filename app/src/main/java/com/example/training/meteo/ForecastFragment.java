@@ -3,9 +3,11 @@ package com.example.training.meteo;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -328,7 +330,9 @@ public class ForecastFragment extends Fragment {
         if (id == R.id.action_refresh) {
             Log.d(TAG, "Refreshing data ...");
             GetWeatherTask weatherTask = new GetWeatherTask();
-            weatherTask.execute("Lille,FR");
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String location = sp.getString(getString(R.string.pref_location_key),getString(R.string.pref_location_default));
+            weatherTask.execute(location);
             return true;
         }
 
