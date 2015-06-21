@@ -109,26 +109,32 @@ public class WeatherProvider extends ContentProvider {
     }
 
     /*
-        Students: Here is where you need to create the UriMatcher. This UriMatcher will
+        TODO: Here is where you need to create the UriMatcher. This UriMatcher will
         match each URI to the WEATHER, WEATHER_WITH_LOCATION, WEATHER_WITH_LOCATION_AND_DATE,
         and LOCATION integer constants defined above.  You can test this by uncommenting the
         testUriMatcher test within TestUriMatcher.
      */
     static UriMatcher buildUriMatcher() {
-        // 1) The code passed into the constructor represents the code to return for the root
-        // URI.  It's common to use NO_MATCH as the code for this case. Add the constructor below.
+        // I know what you're thinking.  Why create a UriMatcher when you can use regular
+        // expressions instead?  Because you're not crazy, that's why.
 
+        // All paths added to the UriMatcher have a corresponding code to return when a match is
+        // found.  The code passed into the constructor represents the code to return for the root
+        // URI.  It's common to use NO_MATCH as the code for this case.
+        final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
+        final String authority = WeatherContract.CONTENT_AUTHORITY;
 
-        // 2) Use the addURI function to match each of the types.  Use the constants from
-        // WeatherContract to help define the types to the UriMatcher.
+        // For each type of URI you want to add, create a corresponding code.
+        matcher.addURI(authority, WeatherContract.PATH_WEATHER, WEATHER);
+        matcher.addURI(authority, WeatherContract.PATH_WEATHER + "/*", WEATHER_WITH_LOCATION);
+        matcher.addURI(authority, WeatherContract.PATH_WEATHER + "/*/#", WEATHER_WITH_LOCATION_AND_DATE);
 
-
-        // 3) Return the new matcher!
-        return null;
+        matcher.addURI(authority, WeatherContract.PATH_LOCATION, LOCATION);
+        return matcher;
     }
 
     /*
-        Students: We've coded this for you.  We just create a new WeatherDbHelper for later use
+        NOTE: We've coded this for you.  We just create a new WeatherDbHelper for later use
         here.
      */
     @Override
@@ -138,7 +144,7 @@ public class WeatherProvider extends ContentProvider {
     }
 
     /*
-        Students: Here's where you'll code the getType function that uses the UriMatcher.  You can
+        TODO: Here's where you'll code the getType function that uses the UriMatcher.  You can
         test this by uncommenting testGetType in TestProvider.
 
      */
@@ -149,7 +155,7 @@ public class WeatherProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
 
         switch (match) {
-            // Student: Uncomment and fill out these two cases
+            // TODO: Uncomment and fill out these two cases
 //            case WEATHER_WITH_LOCATION_AND_DATE:
 //            case WEATHER_WITH_LOCATION:
             case WEATHER:
@@ -198,7 +204,7 @@ public class WeatherProvider extends ContentProvider {
     }
 
     /*
-        Student: Add the ability to insert Locations to the implementation of this function.
+        TODO : Add the ability to insert Locations to the implementation of this function.
      */
     @Override
     public Uri insert(Uri uri, ContentValues values) {
@@ -225,17 +231,17 @@ public class WeatherProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        // Student: Start by getting a writable database
+        // TODO: Start by getting a writable database
 
-        // Student: Use the uriMatcher to match the WEATHER and LOCATION URI's we are going to
+        // TODO: Use the uriMatcher to match the WEATHER and LOCATION URI's we are going to
         // handle.  If it doesn't match these, throw an UnsupportedOperationException.
 
-        // Student: A null value deletes all rows.  In my implementation of this, I only notified
+        // TODO: A null value deletes all rows.  In my implementation of this, I only notified
         // the uri listeners (using the content resolver) if the rowsDeleted != 0 or the selection
         // is null.
         // Oh, and you should notify the listeners here.
 
-        // Student: return the actual rows deleted
+        // TODO: return the actual rows deleted
         return 0;
     }
 
@@ -250,7 +256,7 @@ public class WeatherProvider extends ContentProvider {
     @Override
     public int update(
             Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        // Student: This is a lot like the delete function.  We return the number of rows impacted
+        // TODO: This is a lot like the delete function.  We return the number of rows impacted
         // by the update.
         return 0;
     }
