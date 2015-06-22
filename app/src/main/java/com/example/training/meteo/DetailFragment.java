@@ -1,7 +1,7 @@
 package com.example.training.meteo;
 
-
 import android.content.Intent;
+
 
 import android.database.Cursor;
 import android.net.Uri;
@@ -119,7 +119,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
         mForecast = String.format("%s - %s - %s/%s", dateString, weatherDescription, high, low);
 
-        TextView detailTextView = (TextView)getView().findViewById(R.id.detail_text);
+        TextView detailTextView = (TextView)getView().findViewById(R.id.detail_forecast_textview);
         detailTextView.setText(mForecast);
 
     }
