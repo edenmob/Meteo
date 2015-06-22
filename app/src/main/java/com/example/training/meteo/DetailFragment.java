@@ -1,6 +1,7 @@
 package com.example.training.meteo;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,6 +18,8 @@ public class DetailFragment extends Fragment {
 
     public static final String TAG = DetailFragment.class.getSimpleName();
 
+    public static final String DETAIL_URI  = "URI";
+
     public DetailFragment() {
     }
 
@@ -28,10 +31,11 @@ public class DetailFragment extends Fragment {
         Bundle arguments = getArguments();
 
         if (arguments != null) {
-            String forecastData = arguments.getString(Intent.EXTRA_TEXT);
+            Uri detailUri = arguments.getParcelable(DETAIL_URI);
+            //String forecastData = arguments.getString(Intent.EXTRA_TEXT);
             Log.d(TAG,arguments.toString());
-            ((TextView) rootView.findViewById(R.id.detail_text))
-                    .setText(forecastData);
+            /*((TextView) rootView.findViewById(R.id.detail_text))
+                    .setText(forecastData);*/
         }
 
         return rootView;

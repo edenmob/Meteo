@@ -1,5 +1,6 @@
 package com.example.training.meteo;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -46,19 +47,21 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
     }
 
     @Override
-    public void onItemSelected(String forecastData) {
+    public void onItemSelected(Uri detailUri) {
         if(mTwoPane){
 
             DetailFragment fragment = new DetailFragment();
             Bundle arguments = new Bundle();
-            arguments.putString(Intent.EXTRA_TEXT,forecastData);
+            arguments.putParcelable(DetailFragment.DETAIL_URI, detailUri);
+            //arguments.putString(Intent.EXTRA_TEXT,forecastData);
             fragment.setArguments(arguments);
 
             getSupportFragmentManager().beginTransaction().replace(R.id.weather_detail_container,fragment).commit();
 
         }else{
             Intent intent = new Intent(this,DetailActivity.class);
-            intent.putExtra(Intent.EXTRA_TEXT,forecastData);
+            intent.setData(detailUri);
+            //intent.putExtra(Intent.EXTRA_TEXT,forecastData);
             startActivity(intent);
         }
     }
